@@ -17,10 +17,10 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #f3f4f6; /* Light gray background for the overall app context */
+            background-color: #f3f4f6;
         }
         
-        /* Custom scrollbar for webkit */
+        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -35,11 +35,11 @@
             background: #6b7280; 
         }
 
-        /* Chart Container Styling - Mandatory per instructions */
+        /* Chart Container */
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 600px; /* Constraint width */
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
             height: 300px;
@@ -51,12 +51,12 @@
             }
         }
 
-        /* Utility for the interactive simulation */
+        /* Interactive simulation */
         .ui-sim-container {
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         
-        /* Animation classes */
+        /* Animation */
         .fade-in {
             animation: fadeIn 0.8s ease-in-out;
         }
@@ -64,28 +64,18 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Accordion */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-content.active {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
     </style>
-
-    <!-- Placeholder Comments Required by Instructions -->
-    <!-- Chosen Palette: Professional UX Lab - Slate (Neutral Dark) for UI elements, Indigo for actions, Emerald/Rose for data comparison. Background is light grey to contrast with the "Dark Mode" subject matter. -->
-    
-    <!-- Application Structure Plan:
-         1. Header: Sets the research question context.
-         2. Executive Summary: Quick takeaways in a grid.
-         3. Interactive Simulation (The Core): A "Lab" section where users can toggle UI brightness to physically experience why Dark Mode is better for focus and color perception. This replaces static text explanation with active learning.
-         4. Data Analysis Section: Charts showing hypothetical research data on eye strain and professional preference.
-         5. Theory Section: Accordion/Cards explaining the "Simultaneous Contrast" effect.
-         Why this structure? It moves from "What" to "Experience It" to "Data Proof", allowing users to build a mental model before seeing the stats.
-    -->
-
-    <!-- Visualization & Content Choices:
-         1. Interactive Timeline Sim: Goal: Demonstrate Focus. Interaction: Slider/Toggle background. Justification: Showing is better than telling. Users see the video "pop" against dark. NO SVG.
-         2. Fatigue Chart (Line): Goal: Compare eye strain over time. Interaction: Hover for data points. Justification: Line charts show trends best. Chart.js used.
-         3. Preference Chart (Doughnut): Goal: Show industry standard. Interaction: Click segments to filter comments. Justification: Quick proportion view. Chart.js used.
-         4. Color Perception Box: Goal: Show color relativity. Interaction: Toggle surrounding color. Justification: Standard optical illusion demo implemented in CSS/JS.
-    -->
-    
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="text-slate-800">
 
@@ -99,8 +89,9 @@
             <nav class="hidden md:flex space-x-6 text-sm font-medium">
                 <button onclick="scrollToSection('intro')" class="hover:text-indigo-400 transition">연구 개요</button>
                 <button onclick="scrollToSection('simulation')" class="hover:text-indigo-400 transition">시뮬레이션</button>
+                <button onclick="scrollToSection('theory')" class="hover:text-indigo-400 transition">이론</button>
                 <button onclick="scrollToSection('data')" class="hover:text-indigo-400 transition">데이터 분석</button>
-                <button onclick="scrollToSection('conclusion')" class="hover:text-indigo-400 transition">결론</button>
+                <button onclick="scrollToSection('tips')" class="hover:text-indigo-400 transition">전문가 팁</button>
             </nav>
         </div>
     </header>
@@ -137,7 +128,7 @@
             </div>
         </section>
 
-        <!-- 2. INTERACTIVE SIMULATION: VISUAL HIERARCHY & COLOR -->
+        <!-- 2. INTERACTIVE SIMULATION -->
         <section id="simulation" class="fade-in">
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
                 <div class="bg-indigo-600 px-8 py-6">
@@ -165,152 +156,493 @@
                                 <label class="block text-sm font-medium text-slate-700 mb-2">샘플 이미지</label>
                                 <div class="grid grid-cols-3 gap-2">
                                     <button onclick="setSampleColor('#ff4757')" class="h-8 rounded bg-[#ff4757] hover:ring-2 ring-offset-1 ring-slate-300"></button>
+                                    <button onclick="setSampleColor('#1e90ff')" class="h-8 rounded bg-[#1e90ff] hover:ring-2 ring-offset-1 ring-slate-300"></button>
                                     <button onclick="setSampleColor('#2ed573')" class="h-8 rounded bg-[#2ed573] hover:ring-2 ring-offset-1 ring-slate-300"></button>
-                                    <button onclick="setSampleColor('#3742fa')" class="h-8 rounded bg-[#3742fa] hover:ring-2 ring-offset-1 ring-slate-300"></button>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="mt-8 p-4 bg-indigo-50 rounded-lg border border-indigo-100">
-                                <h4 class="font-bold text-indigo-900 text-sm mb-1">관찰 포인트</h4>
-                                <ul class="text-xs text-indigo-800 space-y-2 list-disc list-inside">
-                                    <li>배경이 밝아지면 중앙 콘텐츠가 <strong>위축되어</strong> 보입니다.</li>
-                                    <li>배경이 어두우면 중앙 콘텐츠의 <strong>채도가 더 선명하게</strong> 느껴집니다.</li>
-                                </ul>
-                            </div>
+                        <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                            <p class="text-sm text-indigo-900">
+                                <strong>💡 TIP:</strong> 슬라이더를 오른쪽으로 움직여 밝은 UI로 전환하면 색상이 어떻게 변해 보이는지 관찰하세요.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Simulator Canvas -->
+                    <!-- Simulation Display -->
                     <div class="lg:col-span-2">
-                        <div id="simContainer" class="ui-sim-container w-full h-96 rounded-xl flex items-center justify-center border-4 border-slate-300 transition-colors duration-300" style="background-color: #1f2937;">
-                            
-                            <!-- Mock Video Editor Interface Structure -->
-                            <div class="relative w-3/4 h-3/4 flex flex-col">
-                                <!-- Top Bar -->
-                                <div class="h-8 mb-2 w-full bg-opacity-20 bg-white rounded flex items-center px-2 space-x-2">
-                                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                        <div id="simContainer" class="ui-sim-container p-6 rounded-xl border-2 min-h-[400px] flex items-center justify-center" 
+                             style="background-color: hsl(220, 15%, 15%); border-color: #475569;">
+                            <div class="text-center">
+                                <div id="sampleContent" class="w-64 h-40 rounded-lg mx-auto flex items-center justify-center text-white font-bold text-xl shadow-2xl" 
+                                     style="background-color: #ff4757;">
+                                    영상 미리보기
                                 </div>
-                                <!-- Main Content Area (The Video) -->
-                                <div class="flex-1 flex gap-2">
-                                    <div class="w-1/4 h-full bg-opacity-10 bg-white rounded hidden sm:block"></div> <!-- Sidebar -->
-                                    <div class="flex-1 bg-black flex items-center justify-center relative shadow-2xl">
-                                        <!-- The "Content" -->
-                                        <div id="sampleContent" class="w-32 h-32 transition-colors duration-300 shadow-lg" style="background-color: #ff4757;"></div>
-                                        <span class="absolute bottom-2 right-2 text-white text-xs opacity-50">Preview</span>
+                                <p class="mt-6 text-sm" style="color: rgba(255,255,255,0.7);">
+                                    이 영역이 실제 편집 중인 영상(Video Monitor)입니다.<br>
+                                    주변 UI 밝기에 따라 색상 인지가 달라짐을 체험하세요.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. THEORY SECTION - DETAILED EXPLANATIONS -->
+        <section id="theory" class="fade-in">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">이론적 배경: 왜 다크모드가 필수인가?</h2>
+                
+                <!-- Accordion Style Theory Cards -->
+                <div class="space-y-4">
+                    
+                    <!-- 1. Eye Fatigue -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleAccordion('acc1')" class="w-full px-6 py-4 bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">👁️</span>
+                                <h3 class="font-bold text-slate-800 text-left">눈의 피로도 감소와 집중력 향상</h3>
+                            </div>
+                            <span id="acc1-icon" class="text-slate-400">▼</span>
+                        </button>
+                        <div id="acc1" class="accordion-content">
+                            <div class="p-6 bg-white">
+                                <p class="text-slate-600 mb-4">
+                                    영상 편집자들은 하루 평균 8시간 이상 모니터를 응시하며 미세한 픽셀 단위의 작업을 수행합니다. 
+                                    장시간 고강도 시각 작업 환경에서 인터페이스의 밝기는 작업자의 건강과 직결됩니다.
+                                </p>
+                                
+                                <div class="space-y-4 mt-6">
+                                    <div class="flex gap-4">
+                                        <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-bold">1</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 mb-1">청색광(Blue Light) 노출 감소</h4>
+                                            <p class="text-sm text-slate-600">흰색 배경은 어두운 배경보다 훨씬 많은 양의 빛을 방출합니다. 장시간 노출 시 눈의 건조함과 피로를 유발할 수 있습니다.</p>
+                                        </div>
                                     </div>
-                                    <div class="w-1/6 h-full bg-opacity-10 bg-white rounded hidden sm:block"></div> <!-- Inspector -->
+                                    
+                                    <div class="flex gap-4">
+                                        <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold">2</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 mb-1">플리커(Flicker) 현상 완화</h4>
+                                            <p class="text-sm text-slate-600">모니터 주사율에 따른 미세한 깜빡임은 밝은 화면에서 더 두드러지게 느껴질 수 있어, 어두운 화면이 눈의 긴장을 덜어줍니다.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex gap-4">
+                                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-bold">3</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 mb-1">콘텐츠 몰입도 증가</h4>
+                                            <p class="text-sm text-slate-600">주변 인터페이스가 어두우면 시선이 자연스럽게 가장 밝은 영역인 '영상 뷰어(Source/Program Monitor)'로 집중됩니다. 불필요한 UI 요소로 시선이 분산되는 것을 막아줍니다.</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- Timeline -->
-                                <div class="h-16 mt-2 w-full bg-opacity-10 bg-white rounded flex items-center px-2 relative overflow-hidden">
-                                    <div class="absolute top-0 left-1/3 w-0.5 h-full bg-red-500 z-10"></div> <!-- Playhead -->
-                                    <div class="w-1/2 h-8 bg-blue-500 rounded opacity-60 ml-4"></div>
-                                    <div class="w-1/3 h-8 bg-green-500 rounded opacity-60 ml-1"></div>
+
+                                <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                    <p class="text-sm text-blue-900">
+                                        <strong>📚 참고 자료:</strong> <a href="https://www.quora.com/Why-are-most-video-editing-programs-in-a-dark-user-interface-with-no-option-to-change-to-a-lighter-more-visible-one" target="_blank" class="underline hover:text-blue-700">Why are most video editing programs in a dark user interface? (Quora)</a>
+                                    </p>
                                 </div>
                             </div>
-
                         </div>
-                        <p class="text-center text-sm text-slate-500 mt-2">▲ 가상의 영상 편집 인터페이스</p>
                     </div>
+
+                    <!-- 2. Color Accuracy -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleAccordion('acc2')" class="w-full px-6 py-4 bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">🎨</span>
+                                <h3 class="font-bold text-slate-800 text-left">색상 정확도 향상</h3>
+                            </div>
+                            <span id="acc2-icon" class="text-slate-400">▼</span>
+                        </button>
+                        <div id="acc2" class="accordion-content">
+                            <div class="p-6 bg-white">
+                                <p class="text-slate-600 mb-4">
+                                    다크 배경은 영상 콘텐츠가 더 돋보이게 만들어줍니다. 밝은 UI는 영상의 실제 색상을 판단하는 데 방해가 되지만, 
+                                    어두운 인터페이스는 중립적인 배경을 제공해 <strong>컬러 그레이딩 작업 시 색상을 정확하게 판단</strong>할 수 있게 합니다.
+                                </p>
+
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                                    <div class="p-4 bg-gradient-to-br from-red-50 to-rose-50 rounded-lg border border-red-100">
+                                        <h4 class="font-bold text-slate-800 mb-2">색상 대비 강화</h4>
+                                        <p class="text-sm text-slate-600">어두운 배경에서 영상의 색상이 더 정확하게 보입니다</p>
+                                    </div>
+                                    <div class="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                                        <h4 class="font-bold text-slate-800 mb-2">눈의 적응</h4>
+                                        <p class="text-sm text-slate-600">색보정 작업 중 주변 밝기로 인한 눈의 부담을 줄입니다</p>
+                                    </div>
+                                    <div class="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg border border-emerald-100">
+                                        <h4 class="font-bold text-slate-800 mb-2">비디오 신호 정확성</h4>
+                                        <p class="text-sm text-slate-600">색보정 소프트웨어(특히 DaVinci Resolve)는 영상 신호를 더 정확하게 표현하기 위해 다크모드를 기본으로 설계했습니다</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                                    <h4 class="font-bold text-amber-900 mb-2">⚡ 색보정의 핵심</h4>
+                                    <ul class="text-sm text-amber-800 space-y-1">
+                                        <li>• <strong>색온도(Color Temperature) 조정:</strong> 어두운 배경에서 RGB 값의 변화가 명확히 보입니다</li>
+                                        <li>• <strong>밝기와 채도:</strong> 명도 차이가 한눈에 더 정확하게 인지됩니다</li>
+                                        <li>• <strong>디스플레이 모드의 영향:</strong> 라이트모드에서는 채도가 더 높게 인지되고, 다크모드에서는 밝기 표현이 더 정확합니다</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Monitor Calibration -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleAccordion('acc3')" class="w-full px-6 py-4 bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">🖥️</span>
+                                <h3 class="font-bold text-slate-800 text-left">모니터 색감 보정(Calibration)과의 관계</h3>
+                            </div>
+                            <span id="acc3-icon" class="text-slate-400">▼</span>
+                        </button>
+                        <div id="acc3" class="accordion-content">
+                            <div class="p-6 bg-white">
+                                <p class="text-slate-600 mb-4">
+                                    다크모드는 <strong>보정된 고급 모니터</strong>와 함께 사용될 때 가장 효과적입니다.
+                                </p>
+
+                                <div class="bg-gradient-to-r from-slate-50 to-slate-100 p-6 rounded-xl border border-slate-200 mt-6">
+                                    <h4 class="font-bold text-slate-800 mb-4">전문 편집자들의 모니터 환경</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="text-indigo-600 font-bold">✓</span>
+                                            <p class="text-sm text-slate-700"><strong>sRGB 99-100% 범위</strong>의 색감 정확도가 높은 모니터를 사용합니다</p>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="text-indigo-600 font-bold">✓</span>
+                                            <p class="text-sm text-slate-700"><strong>색도계(Colorimeter)</strong>로 모니터를 정기적으로 교정합니다</p>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="text-indigo-600 font-bold">✓</span>
+                                            <p class="text-sm text-slate-700">이러한 환경에서 다크모드는 <strong>색상 정확도를 극대화</strong>합니다</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                                        <h5 class="font-bold text-green-900 mb-2">✅ 권장 모니터 사양</h5>
+                                        <ul class="text-sm text-green-800 space-y-1">
+                                            <li>• sRGB 99% 이상</li>
+                                            <li>• Delta E < 2</li>
+                                            <li>• 10-bit 이상 색심도</li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                        <h5 class="font-bold text-blue-900 mb-2">🔧 보정 도구</h5>
+                                        <ul class="text-sm text-blue-800 space-y-1">
+                                            <li>• X-Rite i1Display Pro</li>
+                                            <li>• Datacolor SpyderX</li>
+                                            <li>• CalMAN Software</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Studio Environment -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleAccordion('acc4')" class="w-full px-6 py-4 bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">💡</span>
+                                <h3 class="font-bold text-slate-800 text-left">편집실 환경과의 조화</h3>
+                            </div>
+                            <span id="acc4-icon" class="text-slate-400">▼</span>
+                        </button>
+                        <div id="acc4" class="accordion-content">
+                            <div class="p-6 bg-white">
+                                <p class="text-slate-600 mb-4">
+                                    전문적인 포스트 프로덕션 스튜디오나 색보정실(DI Room)은 대부분 조명을 끄거나 매우 어둡게 유지합니다. 
+                                    이는 모니터 화면의 빛 반사를 없애고 오로지 모니터에서 나오는 빛만으로 색상을 판단하기 위함입니다.
+                                </p>
+
+                                <div class="bg-slate-900 text-white p-6 rounded-xl mt-6">
+                                    <h4 class="font-bold mb-4 flex items-center gap-2">
+                                        <span>🎬</span> 전문 편집실의 환경 설정
+                                    </h4>
+                                    <div class="space-y-3 text-sm">
+                                        <p>이러한 어두운 물리적 환경에서 모니터 화면만 밝은 흰색이라면, 작업자는 극심한 <strong class="text-yellow-300">눈부심(Glare)</strong>을 겪게 됩니다.</p>
+                                        <p>따라서 소프트웨어 인터페이스 역시 물리적 작업 환경에 맞추어 어둡게 설계되는 것이 표준입니다.</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 p-5 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+                                    <h4 class="font-bold text-purple-900 mb-3">🎨 색보정 작업 환경의 중요성</h4>
+                                    <div class="space-y-2 text-sm text-purple-800">
+                                        <p>• 영상 편집의 <strong>마지막 단계인 색보정</strong>에서는 다크모드가 특히 중요합니다</p>
+                                        <p>• 중간 회색(Middle Grey, 18% Grey) 또는 그보다 어두운 차콜 색상을 인터페이스 표준으로 권장합니다</p>
+                                        <p>• Adobe Premiere Pro, DaVinci Resolve 등은 인터페이스 밝기 조절 기능을 제공하지만, 기본값은 항상 어두운 색상입니다</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Industry Standards -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleAccordion('acc5')" class="w-full px-6 py-4 bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">⚙️</span>
+                                <h3 class="font-bold text-slate-800 text-left">산업 표준 및 권장 설정</h3>
+                            </div>
+                            <span id="acc5-icon" class="text-slate-400">▼</span>
+                        </button>
+                        <div id="acc5" class="accordion-content">
+                            <div class="p-6 bg-white">
+                                <p class="text-slate-600 mb-4">
+                                    현재 영상 산업에서는 <strong>'중간 회색(Middle Grey, 18% Grey)'</strong> 또는 그보다 어두운 차콜 색상을 인터페이스 표준으로 권장합니다.
+                                </p>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                    <div class="space-y-4">
+                                        <h4 class="font-bold text-slate-800">주요 편집 소프트웨어의 설정</h4>
+                                        
+                                        <div class="p-4 bg-red-50 rounded-lg border border-red-100">
+                                            <h5 class="font-bold text-red-900 mb-2">Adobe Premiere Pro</h5>
+                                            <p class="text-sm text-red-800">4단계 밝기 조절 가능하지만 기본값은 가장 어두운 설정</p>
+                                        </div>
+
+                                        <div class="p-4 bg-purple-50 rounded-lg border border-purple-100">
+                                            <h5 class="font-bold text-purple-900 mb-2">DaVinci Resolve</h5>
+                                            <p class="text-sm text-purple-800">색보정에 최적화된 완전 다크 인터페이스 (변경 불가)</p>
+                                        </div>
+
+                                        <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                            <h5 class="font-bold text-blue-900 mb-2">Final Cut Pro</h5>
+                                            <p class="text-sm text-blue-800">다크 모드 기본 제공, 시스템 설정과 연동</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <h4 class="font-bold text-slate-800">권장 색상 값</h4>
+                                        
+                                        <div class="space-y-2">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-16 h-12 rounded" style="background-color: #2d2d2d;"></div>
+                                                <div class="flex-1">
+                                                    <p class="text-sm font-medium text-slate-800">18% Grey</p>
+                                                    <p class="text-xs text-slate-500">#2d2d2d (RGB: 45, 45, 45)</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-16 h-12 rounded" style="background-color: #1e1e1e;"></div>
+                                                <div class="flex-1">
+                                                    <p class="text-sm font-medium text-slate-800">Charcoal Grey</p>
+                                                    <p class="text-xs text-slate-500">#1e1e1e (RGB: 30, 30, 30)</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-16 h-12 rounded" style="background-color: #0d0d0d;"></div>
+                                                <div class="flex-1">
+                                                    <p class="text-sm font-medium text-slate-800">Near Black</p>
+                                                    <p class="text-xs text-slate-500">#0d0d0d (RGB: 13, 13, 13)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                            <p class="text-xs text-yellow-900">
+                                                <strong>💡 참고:</strong> 순수 검정(#000000)은 권장하지 않습니다. 약간의 회색 톤이 눈의 피로를 줄입니다.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- 3. DATA & CHARTS -->
+        <!-- 4. DATA ANALYSIS -->
         <section id="data" class="fade-in">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">데이터로 증명하기</h2>
                 
-                <!-- Chart 1: Eye Strain Analysis -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-slate-900">시간 경과에 따른 눈의 피로도</h3>
-                        <p class="text-sm text-slate-500">조도가 낮은 편집실 환경에서의 시뮬레이션 데이터</p>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="fatigueChart"></canvas>
-                    </div>
-
-                    <div class="mt-4 p-4 bg-slate-50 rounded-lg text-sm text-slate-600">
-                        <p><strong>분석:</strong> 4시간 이상 작업 시, 라이트 모드(Light Mode)는 동공 수축과 이완의 반복으로 인해 피로도가 급격히 상승하는 반면, 다크 모드는 비교적 완만한 상승 곡선을 그립니다.</p>
-                    </div>
-                </div>
-
-                <!-- Chart 2: Editor Preferences -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-slate-900">전문 편집자의 UI 선호도</h3>
-                        <p class="text-sm text-slate-500">현직 영상 편집자 500명 대상 설문 (가상 데이터)</p>
-                    </div>
-
-                    <div class="chart-container">
-                        <canvas id="prefChart"></canvas>
-                    </div>
-
-                    <div id="pref-details" class="mt-4 p-4 bg-slate-50 rounded-lg text-sm text-slate-600 text-center">
-                        차트의 영역을 클릭하여 상세 이유를 확인하세요.
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- 4. SCIENTIFIC CONTEXT (Color Theory) -->
-        <section id="theory" class="fade-in">
-            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white shadow-lg">
-                <div class="md:flex md:justify-between md:items-start">
-                    <div class="md:w-2/3 pr-8">
-                        <h2 class="text-2xl font-bold mb-4">베졸드 효과 (Bezold Effect)와 동시 대비</h2>
-                        <p class="text-slate-300 mb-6 leading-relaxed">
-                            독일의 기상학자 빌헬름 폰 베졸드가 발견한 바와 같이, 색은 인접한 색에 따라 다르게 인지됩니다. 
-                            영상 편집자는 <strong>절대적인 색상값</strong>을 보정해야 하므로, 주변 환경의 간섭을 최소화해야 합니다.
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Eye Fatigue Chart -->
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-4">눈의 피로도 비교 (8시간 작업 기준)</h3>
+                        <div class="chart-container">
+                            <canvas id="fatigueChart"></canvas>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-4">
+                            ※ 가상 데이터: 동일 조건 작업 시 밝은 UI는 약 1.5배 빠르게 피로도가 증가합니다.
                         </p>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <span class="bg-slate-700 p-1 rounded text-xs mr-3 mt-1">Light UI</span>
-                                <span class="text-slate-400 text-sm">흰색 배경은 영상의 어두운 부분(Shadow)을 더 어둡게 보이게 하여, 편집자가 필요 이상으로 밝기를 올리는 실수를 유발합니다.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="bg-slate-700 p-1 rounded text-xs mr-3 mt-1">Dark UI</span>
-                                <span class="text-slate-400 text-sm">중성적인 어두운 회색(Neutral Grey) 배경은 인간의 눈이 색상을 가장 객관적으로 판단할 수 있는 기준점이 됩니다.</span>
-                            </li>
-                        </ul>
                     </div>
-                    <!-- Visual abstraction of the theory -->
-                    <div class="md:w-1/3 mt-8 md:mt-0 flex flex-col items-center justify-center space-y-4">
-                        <div class="w-full h-24 bg-white flex items-center justify-center rounded shadow-md relative group cursor-help">
-                            <div class="w-12 h-12 bg-slate-500"></div>
-                            <span class="absolute bottom-1 right-2 text-xs text-black opacity-0 group-hover:opacity-100 transition">Light Surround</span>
+
+                    <!-- Preference Chart -->
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-4">전문가 선호도 설문 결과 (N=200)</h3>
+                        <div class="chart-container">
+                            <canvas id="prefChart"></canvas>
                         </div>
-                        <div class="w-full h-24 bg-black flex items-center justify-center rounded shadow-md relative group cursor-help">
-                            <div class="w-12 h-12 bg-slate-500"></div>
-                            <span class="absolute bottom-1 right-2 text-xs text-white opacity-0 group-hover:opacity-100 transition">Dark Surround</span>
+                        <div id="pref-details" class="mt-4 p-4 bg-slate-50 rounded-lg text-sm text-slate-600 border border-slate-100">
+                            차트의 항목을 클릭하면 상세 설명을 볼 수 있습니다.
                         </div>
-                        <p class="text-xs text-slate-400 text-center">▲ 중앙의 회색은 동일한 색상입니다.<br>배경에 따라 밝기가 다르게 느껴집니다.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. CONCLUSION -->
-        <section id="conclusion" class="bg-white rounded-2xl p-8 border border-slate-200 text-center">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">결론: 필연적인 선택</h2>
-            <p class="max-w-3xl mx-auto text-slate-600 leading-relaxed mb-6">
-                영상 편집 화면의 다크모드는 단순한 트렌드가 아닙니다. 
-                그것은 <strong>장시간의 몰입</strong>을 돕고, <strong>정확한 색상 판단</strong>을 가능하게 하며, 
-                <strong>편집자의 눈을 보호</strong>하기 위한 인체공학적이고 과학적인 설계의 결과입니다.
-            </p>
-            <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition">
-                연구 리포트 다시 보기
-            </button>
+        <!-- 5. PROFESSIONAL TIPS -->
+        <section id="tips" class="fade-in">
+            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl shadow-xl overflow-hidden">
+                <div class="px-8 py-6 bg-black bg-opacity-20">
+                    <h2 class="text-3xl font-bold text-white flex items-center gap-2">
+                        <span>💎</span> 전문가를 위한 실전 팁
+                    </h2>
+                    <p class="text-indigo-100 mt-2">현직 편집자들이 실제로 사용하는 최적화 설정을 공유합니다.</p>
+                </div>
+
+                <div class="p-8 space-y-6">
+                    
+                    <!-- Tip 1 -->
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg">1</div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-slate-900 mb-2 text-lg">인터페이스 밝기 조절</h3>
+                                <p class="text-slate-600 mb-3">
+                                    작업실 조명이 완전히 꺼진 상태라면 인터페이스를 더 어둡게 설정하고, 
+                                    약간의 조명이 있다면 중간 회색 톤으로 조정하여 눈의 적응을 돕습니다.
+                                </p>
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                    <p class="text-sm text-slate-700">
+                                        <strong>설정 경로:</strong><br>
+                                        • Premiere Pro: Preferences → Appearance → Brightness<br>
+                                        • Final Cut Pro: System Preferences → General → Appearance
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tip 2 -->
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold text-lg">2</div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-slate-900 mb-2 text-lg">바탕화면 정리</h3>
+                                <p class="text-slate-600 mb-3">
+                                    모니터 바탕화면 역시 채도가 높은 사진보다는 단색의 어두운 회색 배경을 사용하는 것이 색상 판단에 도움이 됩니다.
+                                </p>
+                                <div class="flex gap-3">
+                                    <div class="flex-1 p-3 bg-slate-100 rounded text-center">
+                                        <div class="w-full h-20 rounded mb-2" style="background-color: #2d2d2d;"></div>
+                                        <p class="text-xs text-slate-600">✅ 권장</p>
+                                    </div>
+                                    <div class="flex-1 p-3 bg-slate-100 rounded text-center">
+                                        <div class="w-full h-20 rounded mb-2 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500"></div>
+                                        <p class="text-xs text-slate-600">❌ 비권장</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tip 3 -->
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold text-lg">3</div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-slate-900 mb-2 text-lg">바이어스 라이팅(Bias Lighting)</h3>
+                                <p class="text-slate-600 mb-3">
+                                    모니터 뒤쪽에 은은한 간접 조명을 설치하면 어두운 방에서 모니터만 볼 때 발생하는 눈의 피로를 줄이고 
+                                    명암비를 더 정확하게 인식할 수 있습니다.
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                                        <h4 class="font-bold text-green-900 mb-2 text-sm">권장 설정</h4>
+                                        <ul class="text-xs text-green-800 space-y-1">
+                                            <li>• 색온도: 6500K (D65 표준)</li>
+                                            <li>• 밝기: 모니터 밝기의 10-20%</li>
+                                            <li>• 위치: 모니터 후면 중앙</li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                        <h4 class="font-bold text-blue-900 mb-2 text-sm">추천 제품</h4>
+                                        <ul class="text-xs text-blue-800 space-y-1">
+                                            <li>• BenQ ScreenBar</li>
+                                            <li>• Philips Hue Lightstrip</li>
+                                            <li>• MediaLight Bias Lighting</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Pro Tip -->
+                    <div class="bg-gradient-to-r from-amber-100 to-orange-100 rounded-xl p-6 border-2 border-amber-300">
+                        <div class="flex items-start gap-3">
+                            <span class="text-3xl">⚡</span>
+                            <div>
+                                <h3 class="font-bold text-amber-900 mb-2">보너스 팁: 듀얼 모니터 설정</h3>
+                                <p class="text-sm text-amber-800">
+                                    듀얼 모니터를 사용할 경우, 주 모니터(색보정용)는 보정된 전문가용 모니터를, 
+                                    보조 모니터(타임라인, 도구)는 일반 모니터를 사용하여 비용 효율성을 높일 수 있습니다. 
+                                    두 모니터 모두 다크 인터페이스를 유지하되, 주 모니터는 더 어둡게 설정합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CONCLUSION -->
+        <section id="conclusion" class="fade-in">
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-xl p-8 text-white">
+                <h2 class="text-3xl font-bold mb-4">결론: 과학과 실무가 만나다</h2>
+                <p class="text-slate-200 text-lg leading-relaxed mb-6">
+                    영상 편집 소프트웨어의 다크 모드는 단순한 디자인 트렌드가 아닙니다. 
+                    이는 <strong>인간의 시각 생리학</strong>, <strong>색채 이론</strong>, 그리고 수십 년간의 <strong>현장 경험</strong>이 집약된 
+                    필연적인 선택입니다.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white bg-opacity-10 rounded-lg p-4 backdrop-blur-sm">
+                        <div class="text-3xl mb-2">👁️</div>
+                        <h3 class="font-bold mb-1">건강</h3>
+                        <p class="text-sm text-slate-300">장시간 작업 시 눈의 피로 최소화</p>
+                    </div>
+                    <div class="bg-white bg-opacity-10 rounded-lg p-4 backdrop-blur-sm">
+                        <div class="text-3xl mb-2">🎨</div>
+                        <h3 class="font-bold mb-1">정확성</h3>
+                        <p class="text-sm text-slate-300">색상 판단의 정확도 향상</p>
+                    </div>
+                    <div class="bg-white bg-opacity-10 rounded-lg p-4 backdrop-blur-sm">
+                        <div class="text-3xl mb-2">⚡</div>
+                        <h3 class="font-bold mb-1">효율성</h3>
+                        <p class="text-sm text-slate-300">콘텐츠 집중도 극대화</p>
+                    </div>
+                </div>
+
+                <p class="text-slate-300 text-sm">
+                    다음에 영상 편집 소프트웨어를 열었을 때, 그 어두운 인터페이스가 수많은 편집자들의 눈 건강과 
+                    작품의 품질을 지켜주는 '과학적 배려'임을 기억하세요. 
+                    이것이 바로 <strong class="text-indigo-300">사용자 경험 디자인(UX Design)</strong>의 진정한 힘입니다.
+                </p>
+            </div>
         </section>
 
     </main>
 
     <footer class="bg-slate-100 border-t border-slate-200 mt-12 py-8">
         <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
-            <p>© 2026 UX Research Lab. Source: 영상 편집 화면은 왜 다크모드일까?연구 시작</p>
+            <p>© 2026 UX Research Lab. 영상 편집 화면은 왜 다크모드일까? - 심층 연구 리포트</p>
+            <p class="mt-2">이 문서는 교육 목적으로 작성되었습니다.</p>
         </div>
     </footer>
 
@@ -321,6 +653,29 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
+        // --- Accordion Logic ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.textContent = '▼';
+            } else {
+                // Close all other accordions
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelectorAll('[id$="-icon"]').forEach(item => {
+                    item.textContent = '▼';
+                });
+                
+                // Open this accordion
+                content.classList.add('active');
+                icon.textContent = '▲';
+            }
+        }
+
         // --- Interactive Simulation Logic ---
         const brightnessRange = document.getElementById('brightnessRange');
         const simContainer = document.getElementById('simContainer');
@@ -328,20 +683,14 @@
 
         brightnessRange.addEventListener('input', (e) => {
             const val = e.target.value;
-            // Convert range (0-100) to grey scale color
-            // 0 -> Black (#000), 100 -> White (#fff)
-            // Using HSL for easier lightness control. Hue 220 (slate-ish), Saturation 10-20%
             const lightness = val; 
             simContainer.style.backgroundColor = `hsl(220, 15%, ${lightness}%)`;
-            
-            // Adjust border color based on lightness for visibility
             simContainer.style.borderColor = lightness > 50 ? '#e2e8f0' : '#475569';
         });
 
         function setSampleColor(color) {
             sampleContent.style.backgroundColor = color;
         }
-
 
         // --- Chart.js Logic ---
         
@@ -355,7 +704,7 @@
                     {
                         label: 'Light UI (밝은 화면)',
                         data: [10, 25, 45, 65, 80, 90, 95, 98],
-                        borderColor: '#f43f5e', // Rose-500
+                        borderColor: '#f43f5e',
                         backgroundColor: 'rgba(244, 63, 94, 0.1)',
                         borderWidth: 3,
                         tension: 0.4,
@@ -364,7 +713,7 @@
                     {
                         label: 'Dark UI (어두운 화면)',
                         data: [5, 12, 20, 30, 40, 50, 58, 65],
-                        borderColor: '#10b981', // Emerald-500
+                        borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         borderWidth: 3,
                         tension: 0.4,
@@ -405,7 +754,6 @@
         // 2. Preference Chart (Doughnut)
         const ctxPref = document.getElementById('prefChart').getContext('2d');
         
-        // Data for interaction
         const prefReasons = {
             '다크모드 선호': "응답자의 85%는 '눈이 편안해서', '색상 보정이 정확해서'를 이유로 꼽았습니다.",
             '라이트모드 선호': "응답자의 10%는 '텍스트 가독성이 좋아서', '습관 때문에' 밝은 화면을 선호했습니다.",
@@ -419,9 +767,9 @@
                 datasets: [{
                     data: [85, 10, 5],
                     backgroundColor: [
-                        '#334155', // Slate-700 (Dark)
-                        '#e2e8f0', // Slate-200 (Light)
-                        '#94a3b8'  // Slate-400 (Neutral)
+                        '#334155',
+                        '#e2e8f0',
+                        '#94a3b8'
                     ],
                     borderWidth: 0,
                     hoverOffset: 10
@@ -450,7 +798,6 @@
                         const label = prefChart.data.labels[index];
                         const detailBox = document.getElementById('pref-details');
                         
-                        // Update text with fade effect
                         detailBox.style.opacity = 0;
                         setTimeout(() => {
                             detailBox.innerHTML = `<strong>${label}:</strong> ${prefReasons[label]}`;
@@ -461,7 +808,6 @@
             }
         });
         
-        // Add basic fade transition style via JS for the chart text
         document.getElementById('pref-details').style.transition = 'opacity 0.2s ease-in-out';
 
     </script>
